@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline Page Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+
+        main {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to My Offline Page</h1>
+    </header>
+    <main>
+        <p>This webpage demonstrates how to use a service worker to cache content for offline access.</p>
+    </main>
+
+    <script>
+        // Registering the service worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('data:application/javascript;charset=utf-8,' + encodeURIComponent(`
+                    const CACHE_NAME = 'offline-cache-v1';
+                    const OFFLINE_URL = 'data:text/html;charset=utf-8,' + encodeURIComponent(document.documentElement.outerHTML);
+                    
+                    const CACHE_ASSETS = [
+                        OFFLINE_URL,
+                    ];
+
+                    // Install event
+                    self.addEventListener('install', event => {
+                        event.waitUntil(
+                            caches.open(CACHE_NAME)
+                                .then(cache => {
+                                    return cache.addAll(CACHE_ASSETS);
+                                })
+                        );
+                    });
+
+                    // Fetch event
+                    self.addEventListener('fetch', event => {
+                        event.respondWith(
+                            fetch(event.request).catch(() => {
+                                return caches.match(event.request).then(response => {
+                                    return response || caches.match(OFFLINE_URL);
+                                });
+                            })
+                        );
+                    });
+                `)).then(registration => {
+                    console.log('Service Worker registered with scope:', registration.scope);
+                }).catch(error => {
+                    console.log('Service Worker registration failed:', error);
+                });
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theme Color Selector</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            transition: background-color 0.3s ease;
+        }
+        .color-picker {
+            margin-top: 20px;
+        }
+        .color-option {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Choose a Background Color</h1>
+    <div class="color-picker">
+        <div class="color-option" style="background-color: #ff5733;" data-color="#ff5733"></div>
+        <div class="color-option" style="background-color: #33c1ff;" data-color="#33c1ff"></div>
+        <div class="color-option" style="background-color: #33ff57;" data-color="#33ff57"></div>
+        <div class="color-option" style="background-color: #ff33f6;" data-color="#ff33f6"></div>
+        <div class="color-option" style="background-color: #f3ff33;" data-color="#f3ff33"></div>
+    </div>
+
+    <script>
+        // Function to set background color
+        function setBackgroundColor(color) {
+            document.body.style.backgroundColor = color;
+            localStorage.setItem('backgroundColor', color);
+        }
+
+        // Retrieve color from localStorage and apply it
+        window.onload = function() {
+            const savedColor = localStorage.getItem('backgroundColor');
+            if (savedColor) {
+                setBackgroundColor(savedColor);
+            }
+        };
+
+        // Add event listeners to color options
+        const colorOptions = document.querySelectorAll('.color-option');
+        colorOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                const color = this.getAttribute('data-color');
+                setBackgroundColor(color);
+            });
+        });
+    </script>
+</body>
+</html>

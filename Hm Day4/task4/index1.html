@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Shapes</title>
+    <style>
+        /* Basic styling for the canvas */
+        canvas {
+            border: 1px solid black;
+            display: block;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Drawing Shapes with Canvas</h2>
+
+    <!-- Canvas element -->
+    <canvas id="myCanvas" width="400" height="400"></canvas>
+
+    <script>
+        // Access the canvas element and its 2D drawing context
+        const canvas = document.getElementById('myCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Draw a rectangle (x, y, width, height)
+        ctx.fillStyle = "#4CAF50";  // Fill color for the rectangle
+        ctx.fillRect(50, 50, 150, 100);  // Draw rectangle at (50, 50) with width 150 and height 100
+
+        // Draw a circle (x, y, radius, startAngle, endAngle, anticlockwise)
+        ctx.beginPath();
+        ctx.arc(250, 150, 50, 0, 2 * Math.PI);  // Circle at (250, 150) with radius 50
+        ctx.fillStyle = "#FF5733";  // Fill color for the circle
+        ctx.fill();  // Fill the circle
+        ctx.closePath();
+
+        // Draw a line (moveTo x1, y1, lineTo x2, y2)
+        ctx.beginPath();
+        ctx.moveTo(50, 300);  // Start the line at (50, 300)
+        ctx.lineTo(350, 300);  // Draw to (350, 300)
+        ctx.strokeStyle = "#0000FF";  // Color of the line
+        ctx.lineWidth = 5;  // Line thickness
+        ctx.stroke();  // Draw the line
+        ctx.closePath();
+    </script>
+
+</body>
+</html>

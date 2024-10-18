@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Media Controls</title>
+    <style>
+        /* Basic styling for the media section */
+        #media-section {
+            margin: 20px;
+        }
+
+        .controls {
+            margin-top: 10px;
+        }
+
+        /* Button styles */
+        button {
+            padding: 10px;
+            margin-right: 5px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Volume slider styles */
+        input[type="range"] {
+            width: 100px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <section id="media-section">
+        <h2>Custom Controls for YouTube Video</h2>
+
+        <!-- YouTube Video -->
+        <iframe id="video" width="560" height="315" 
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+        </iframe>
+
+        <!-- Custom controls for the video -->
+        <div class="controls">
+            <button id="playVideo">Play</button>
+            <button id="pauseVideo">Pause</button>
+            <label for="videoVolume">Volume:</label>
+            <input type="range" id="videoVolume" min="0" max="1" step="0.1" value="0.5">
+        </div>
+
+        <h3>Custom Controls for Audio File</h3>
+
+        <!-- Audio File -->
+        <audio id="audio" src="audio_file.mp3"></audio>
+
+        <!-- Custom controls for the audio -->
+        <div class="controls">
+            <button id="playAudio">Play</button>
+            <button id="pauseAudio">Pause</button>
+            <label for="audioVolume">Volume:</label>
+            <input type="range" id="audioVolume" min="0" max="1" step="0.1" value="0.5">
+        </div>
+    </section>
+
+    <script>
+        // Video Controls
+        const video = document.getElementById('video');
+        const playVideoBtn = document.getElementById('playVideo');
+        const pauseVideoBtn = document.getElementById('pauseVideo');
+        const videoVolume = document.getElementById('videoVolume');
+
+        // Play and Pause for video
+        playVideoBtn.addEventListener('click', () => {
+            video.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+        });
+
+        pauseVideoBtn.addEventListener('click', () => {
+            video.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+        });
+
+        // Volume Control for video
+        videoVolume.addEventListener('input', () => {
+            video.contentWindow.postMessage('{"event":"command","func":"setVolume","args":[' + videoVolume.value * 100 + ']}', '*');
+        });
+
+        // Audio Controls
+        const audio = document.getElementById('audio');
+        const playAudioBtn = document.getElementById('playAudio');
+        const pauseAudioBtn = document.getElementById('pauseAudio');
+        const audioVolume = document.getElementById('audioVolume');
+
+        // Play and Pause for audio
+        playAudioBtn.addEventListener('click', () => {
+            audio.play();
+        });
+
+        pauseAudioBtn.addEventListener('click', () => {
+            audio.pause();
+        });
+
+        // Volume Control for audio
+        audioVolume.addEventListener('input', () => {
+            audio.volume = audioVolume.value;
+        });
+    </script>
+
+</body>
+</html>
